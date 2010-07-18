@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# a, er, very poor man's daemonize
+./main.py &>api.log &
+# tada!
+
