@@ -2,3 +2,5 @@
 *~
 *.pyc
 api.log
+settings.py
+data.py
