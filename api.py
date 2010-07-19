@@ -11,6 +11,8 @@ import tornado.ioloop
 import tornado.web
 import urllib, urllib2
 import os, datetime
+from data import * # all the actual personal information goes here. 
+
 try:
     import json
 except:
@@ -32,22 +34,25 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class BioHandler(tornado.web.RequestHandler):
     def get(self):
-	# XXX TODO format=plaintext, format=html
-	date = "2010-07-18" # year-month-day
-	bio = '''Jessy Cowan-Sharp is an urban hacker, an alchemist of social systems, and a communities scientist. She currently works at the Sunlight Foundation, a DC-based open government think tank, writing code to jump start the next generation of participatory citizenry. Previous to Sunlight, Jessy was at NASA working on the Nebula cloud computing platform. Jessy's research interests focus on the study of patterns in human behaviour, organization, and governance; and the development of  platforms to facilitate collaboration and creativity.  She is variously involved in open source software development, open education, intentional housing, cooking and crossfit.  Find her @jessykate or online. '''
-	resp = {'name': 'Jessy Kate Cowan-Sharp', 'date': date, 'bio': bio}
-	js = json.dumps(resp)
-	self.set_header("Content-Type", "application/json")
-	self.write(js)
-	return
+	    # XXX TODO format=plaintext, format=html, prettyprint. 
+        version = self.get_argument('version', None)
+        resp = {'name': NAME, 'date': CURRENT_DATE} 
+        if version == 'work':
+            resp['bio'] = BIO_WORK
+        else:
+            resp['bio'] =  BIO_MAIN
+        js = json.dumps(resp)
+        self.set_header("Content-Type", "application/json")
+        self.write(js)
+        return
 
 class ContactHandler(tornado.web.RequestHandler):
     def get(self):
 	contact_info = {
-	    'email' : 'jessy.cowansharp@gmail.com',
-	    'phone' : '202-360-3967',
-	    'twitter' : 'http://twitter.com/jessykate',
-	    'web' : 'http://jessykate.com',
+	    'email' : EMAIL_MAIN, 
+	    'phone' : PHONE_MOBILE,
+	    'twitter' : TWITTER,
+	    'web' : WEBSITE_MAIN,
 	}
 	js = json.dumps(contact_info)
 	self.set_header("Content-Type", "application/json")
